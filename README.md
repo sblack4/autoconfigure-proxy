@@ -31,7 +31,7 @@ There are 3 ways to get around this:
 
 1. Go to Control Panel -> Internet Options -> Connections -> LAN Settings
 2. Look at how your proxy is configured, it probably script  
-![Lan Settings img](images/LAN-Settings.png)
+![Lan Settings img](images/Lan-Settings.png)
 3. Download that file
 4. Look for a line that starts with `proxies =`  
 (e.g. `proxies = "PROXY www-proxy.us.big-corp.com:80; PROXY www-proxy2.us.big-corp.com:80; DIRECT;";`)
@@ -45,5 +45,3 @@ There are 3 ways to get around this:
 1. install nodejs
 2. run `node get_proxy.js` in this directory
 3. boom. that's it. 
-
-
