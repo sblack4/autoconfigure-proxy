@@ -1,0 +1,7 @@
+
+# Microsoft office
+~*
+*.pptx
+
+# js - just in case
+node_modules

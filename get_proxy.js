@@ -3,6 +3,8 @@
  * 1. Find proxy 
  * 2. Set proxy / lack thereof
  * 3. update Services (npm, github, docker, etc...)
+ * WARNING this is configured for windows
+ *   in unix it's export <variable>=<enviormental variable> not set
  */
 const http = require('http');
 const fs = require('fs');
@@ -42,24 +44,40 @@ function getServices(path_string) {
     })
 }
 
+/**
+ * returns commands to set proxy
+ * for different programs
+ * @param {*proxy url} proxy 
+ */
 function setProxyCommands(proxy) {
     const npm = `npm config set http-proxy ${proxy}`;
     const git = `git config --global http.proxy ${proxy}`;
     // docker, pip supposedly use this
     const enviormental = `SET HTTP_PROXY=${proxy}`;
-
-    return [npm, git, enviormental];
+    // const pip = `pip --proxy ${proxy}`;
+    return [npm, git, enviormental, pip];
 }
 
+/**
+ * returns commands to remove proxy
+ * for different programs
+ */
 function removeProxyCommands() {
     const npm = "npm config rm http-proxy";
     const git = "git config --global --unset http.proxy"
         // TODO: NO_PROXY for enviorment/docker
+        // or if it's "setx FOOBAR "" " to set
+        // then "REG delete HKCU\Environment /F /V FOOBAR" to unset 
+        // https://stackoverflow.com/questions/13222724/command-line-to-remove-an-environment-variable-from-the-os-level-configuration
     const enviormental = "";
 
     return [npm, git, enviormental];
 }
 
+/**
+ * runs array of commands to console
+ * @param {*Array<string> of console commands} consoleComands 
+ */
 function runCommands(consoleComands) {
     consoleComands.forEach(function(command) {
         console.log(`executing '${command}'`);
@@ -67,14 +85,20 @@ function runCommands(consoleComands) {
             if (error) {
                 console.error(`error executing '${command}' \n ${error}`);
             }
-            console.log(`${stdout}`);
-            console.log(`${stderr}`);
+            if (stderr) {
+                console.log(`${stdout}`);
+                
+            }
+            if (stdout) {
+                console.log(`${stderr}`);                
+            }
         });
     });
 }
 
 /**
- * retrieves the proxy 
+ * retrieves the proxy address
+ *  @param {*url of pac file} url 
  */
 function getProxy(url) {
     let proxy_name = "";
