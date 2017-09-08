@@ -14,6 +14,8 @@ That being said there are a few different ways of configuring proxies.
 This is most common for big corporate enviorments but if you need help with a different
 type of proxy open an issue and I'd be more than happy to address it here :smiley:
 
+#### For more information about proxies, see [Proxies](Proxies.md)
+
 ----
 ## How to "get around" a proxy
 
@@ -37,25 +39,11 @@ There are 3 ways to get around this:
 (e.g. `http://www-proxy.us.big-corp.com:80`)
 6. Run the commands as listed in [Proxy-Commands](Proxy-Commands.md) 
 
-<!-- configure your services! This should be a simple comman-line setting
-    * npm: `npm config set http-proxy <PROXY_ADDRESS>`
-    * github: `git config --global http.proxy <PROXY_ADDRESS>`
-    * docker: Docker Menu -> Proxies -> Web Server. Then restart docker
-        * In container: `export http_proxy="<PROXY_ADDRESS>"`
-        * As a build-arg: `--build-arg http_proxy=<PROXY_ADDRESS>`
-        * In Dockerfile:
-
-        ```docker
-        FROM ubuntu
-
-        ENV http_proxy "<PROXY_ADDRESS>"
-        ENV https_proxy "<PROXY_ADDRESS>"
-        ```
-
-    * pip: **TODO: haven't tried pip yet**
-
+<!-- 
 **TODO: finish this script/maybe write it in cmd or java which everyone has** -->
 ### 3. Automatically get around proxy/ unset variables:
 1. install nodejs
 2. run `node get_proxy.js` in this directory
 3. boom. that's it. 
+
+
