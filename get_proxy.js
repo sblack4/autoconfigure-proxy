@@ -55,7 +55,7 @@ function setProxyCommands(proxy) {
     // docker, pip supposedly use this
     const enviormental = `SET HTTP_PROXY=${proxy}`;
     // const pip = `pip --proxy ${proxy}`;
-    return [npm, git, enviormental, pip];
+    return [npm, git, enviormental];
 }
 
 /**
