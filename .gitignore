@@ -3,5 +3,9 @@
 ~*
 *.pptx
 
-# js - just in case
+# js
 node_modules
+
+# editors
+.vscode
+.idea
