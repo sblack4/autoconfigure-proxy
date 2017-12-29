@@ -2,6 +2,7 @@ package com.sblack.autoconfigureproxy;
 
 //import org.apache.
 
+
 /**
  * Entrance Point
  *
@@ -21,7 +22,8 @@ public class CLI
         CommandLineParser cliparser = new CommandLineParser();
         cliparser.Parse(args);
 
-
+        ProxyRetriever proxyRetriever = new ProxyRetriever();
+        proxyRetriever.DisplayHostnames();
 
     }
 }

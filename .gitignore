@@ -9,3 +9,7 @@ node_modules
 # editors
 .vscode
 .idea
+
+# java
+*.class
+target/**/*
