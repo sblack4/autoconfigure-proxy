@@ -21,6 +21,12 @@
       <version>1.4</version>
       <scope>build</scope>
     </dependency>
+  <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-exec</artifactId>
+      <version>1.3</version>
+      <scope>build</scope>
+  </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

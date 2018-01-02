@@ -4,7 +4,6 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.util.List;
-import java.net.InetSocketAddress;
 
 /**
  * Gets proxy or proxy (pac) file
@@ -13,7 +12,7 @@ public class ProxyRetriever {
     /**
      * The Proxy list.
      */
-    List<Proxy> proxyList;
+    private List<Proxy> proxyList;
 
     /**
      * Instantiates a new Proxy retriever.
@@ -23,7 +22,7 @@ public class ProxyRetriever {
     }
 
     /**
-     * Detect proxy.
+     * Detect proxy with default URI (https://www.google.com).
      */
     public void DetectProxy() {
         DetectProxy("https://www.google.com");
@@ -36,17 +35,9 @@ public class ProxyRetriever {
      */
     public void DetectProxy(String testUriString) {
         System.setProperty("java.net.useSystemProxies","true");
-
         try {
             URI testUri = new URI(testUriString);
-
-            ProxySelector defaultProxy = ProxySelector.getDefault();
-            List<Proxy> plist = defaultProxy.select(testUri);
-            InetSocketAddress adr = (InetSocketAddress) plist.get(0).address();
-
-
             this.proxyList = ProxySelector.getDefault().select(testUri);
-            System.out.println(adr.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,11 +56,13 @@ public class ProxyRetriever {
     }
 
     /**
-     * Get proxy string.
+     * Get proxy as a string.
      *
-     * @return the string
+     * @return the proxy (host:port), i.e. www-proxy.example.com:80
      */
     public String getProxy(){
         return proxyList.get(0).toString();
     }
+
+
 }

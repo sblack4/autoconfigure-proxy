@@ -25,5 +25,8 @@ public class CLI
         ProxyRetriever proxyRetriever = new ProxyRetriever();
         proxyRetriever.DisplayHostnames();
 
+        ProxyServices ps = new ProxyServices();
+        System.out.println(ps.lookForProgramInPath("node"));
+
     }
 }
