@@ -13,3 +13,6 @@ node_modules
 # java
 *.class
 target/**/*
+
+# swap files 
+*.swp
