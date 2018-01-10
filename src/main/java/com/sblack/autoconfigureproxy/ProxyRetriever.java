@@ -55,12 +55,16 @@ public class ProxyRetriever {
         }
     }
 
+    public Proxy getProxy() {
+        return proxyList.get(0);
+    }
+
     /**
      * Get proxy as a string.
      *
      * @return the proxy (host:port), i.e. www-proxy.example.com:80
      */
-    public String getProxy(){
+    public String getProxyString(){
         return proxyList.get(0).toString();
     }
 

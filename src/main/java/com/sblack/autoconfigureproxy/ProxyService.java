@@ -1,12 +1,13 @@
 package com.sblack.autoconfigureproxy;
 
+import java.awt.peer.SystemTrayPeer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.net.Proxy;
-import org.apache.commons.exec;
+//import org.apache.commons.exec;
 
 /**
  * No static (& non-nested) classes in java apparently
@@ -29,7 +30,6 @@ public final class ProxyService {
             this.proxyType = proxy.type().toString();
         } catch (Exception ex) {
             // probably no proxy
-            System.out.println(ex);
             ex.printStackTrace();
             this.proxyAddress = "";
             this.proxyType = "DIRECT";
@@ -49,7 +49,7 @@ public final class ProxyService {
         return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
     }
 
-    private boolean inPath(String exec) {
+    public boolean inPath(String exec) {
         return execPath(exec) != null;
     }
 
@@ -79,22 +79,18 @@ public final class ProxyService {
 
 
     private void runCommand(String command) {
-
+        System.out.println(command);
     }
 
-    public void setProxy(){
-        if (ProxyServices.this.proxyType.equals("HTTP")) {
-            runCommand(setString);
-        } else { // if null or ProxyServices.this.proxy.type().toString().equals("DIRECT")
-            runCommand(unsetString);
-        }
-    }
-
-
-
-    public boolean inPath() {
-        return false;
-    }
-
-
+//    public void setProxy() {
+//
+//        // right now only HTTP proxy
+//        if (this.proxyType.equals("HTTP")) {
+//            runCommand(setString);
+//        } else { // if null or ProxyServices.this.proxy.type().toString().equals("DIRECT")
+//            runCommand(unsetString);
+//        }
+//    }
 }
+
+

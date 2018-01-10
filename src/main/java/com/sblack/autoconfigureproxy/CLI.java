@@ -1,6 +1,6 @@
 package com.sblack.autoconfigureproxy;
 
-//import org.apache.
+import java.net.Proxy;
 
 
 /**
@@ -25,8 +25,10 @@ public class CLI
         ProxyRetriever proxyRetriever = new ProxyRetriever();
         proxyRetriever.DisplayHostnames();
 
-        ProxyServices ps = new ProxyServices();
-        System.out.println(ps.lookForProgramInPath("node"));
+        Proxy proxy = proxyRetriever.getProxy();
+
+        ProxyService ps = new ProxyService(proxy);
+        System.out.println(ps.execPath("node"));
 
     }
 }
