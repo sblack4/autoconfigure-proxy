@@ -29,7 +29,7 @@ public class ProxyRetriever {
     }
 
     /**
-     * Detect proxy.
+     * Detect proxy Overload.
      *
      * @param testUri the test uri
      */
@@ -49,8 +49,12 @@ public class ProxyRetriever {
     public void DisplayHostnames() {
         int i = 1;
         for(Proxy proxy : proxyList) {
-            String proxyAddress = (proxy.address() == null) ? "None" : proxy.address().toString();
-            System.out.println(String.format(" %d | Type: %s | Proxy: %s", i, proxy.type().toString(), proxyAddress));
+            try {
+                String proxyAddress = (proxy.address() == null) ? "None" : proxy.address().toString();
+                System.out.println(String.format(" %d | Type: %s | Proxy: %s", i, proxy.type().toString(), proxyAddress));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             i++;
         }
     }

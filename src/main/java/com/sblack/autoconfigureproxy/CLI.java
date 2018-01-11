@@ -28,7 +28,7 @@ public class CLI
         Proxy proxy = proxyRetriever.getProxy();
 
         ProxyService ps = new ProxyService(proxy);
-        System.out.println(ps.execPath("node"));
+        ps.run();
 
     }
 }

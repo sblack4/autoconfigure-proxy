@@ -32,6 +32,12 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+      <!-- https://mvnrepository.com/artifact/org.json/json -->
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20160810</version>
+      </dependency>
   </dependencies>
 
   <build>
@@ -85,7 +91,33 @@
         </execution>
       </executions>
     </plugin>
-
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+          <executions>
+              <execution>
+                  <id>copy-resources</id>
+                  <!-- here the phase you need -->
+                  <phase>package</phase>
+                  <goals>
+                      <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                      <outputDirectory>${project.basedir}/target</outputDirectory>
+                      <resources>
+                          <resource>
+                              <directory>${project.basedir}/src/main/resources</directory>
+                              <includes>
+                                  <include>commands.json</include>
+                                  <include>settings.json</include>
+                              </includes>
+                          </resource>
+                      </resources>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
   </plugins>
   </build>
 
