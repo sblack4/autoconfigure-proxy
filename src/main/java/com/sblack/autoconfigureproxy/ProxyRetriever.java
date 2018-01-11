@@ -1,9 +1,13 @@
 package com.sblack.autoconfigureproxy;
 
+import sun.net.spi.DefaultProxySelector;
+
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Gets proxy or proxy (pac) file
@@ -25,7 +29,7 @@ public class ProxyRetriever {
      * Detect proxy with default URI (https://www.google.com).
      */
     public void DetectProxy() {
-        DetectProxy("https://www.google.com");
+        DetectProxy("http://www.google.com");
     }
 
     /**
@@ -37,7 +41,27 @@ public class ProxyRetriever {
         System.setProperty("java.net.useSystemProxies","true");
         try {
             URI testUri = new URI(testUriString);
+
+            Properties props =  System.getProperties();
+
+            Map<String, String> props1 =  System.getenv();
+
+            ProxySelector defaultProxy = ProxySelector.getDefault();
+
+            System.out.println("wat");
+
+            ProxySelector np = new DefaultProxySelector();
+
+            List<Proxy> psps = np.select(testUri);
+
+            System.out.println("wat");
+
+            List<Proxy> plist = defaultProxy.select(testUri);
+
             this.proxyList = ProxySelector.getDefault().select(testUri);
+
+            System.out.println("wat");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

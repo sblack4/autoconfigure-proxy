@@ -1,6 +1,7 @@
 package com.sblack.autoconfigureproxy;
 
 import java.net.Proxy;
+import java.util.Map;
 
 
 /**
@@ -19,16 +20,26 @@ public class CLI
      */
     public static void main( String[] args ) {
 
-        CommandLineParser cliparser = new CommandLineParser();
-        cliparser.Parse(args);
+//        CommandLineParser cliparser = new CommandLineParser();
+//        cliparser.Parse(args);
+//
+//        ProxyRetriever proxyRetriever = new ProxyRetriever();
+//        proxyRetriever.DisplayHostnames();
+//
+//        Proxy proxy = proxyRetriever.getProxy();
+//
+//        ProxyService ps = new ProxyService(proxy);
+//        ps.run();
 
-        ProxyRetriever proxyRetriever = new ProxyRetriever();
-        proxyRetriever.DisplayHostnames();
+        test();
 
-        Proxy proxy = proxyRetriever.getProxy();
+    }
 
-        ProxyService ps = new ProxyService(proxy);
-        ps.run();
+    private static void test() {
+        NativeProxySelector np = new NativeProxySelector();
 
+        Map<String, String> maap =  np.getInternetSettings();
+
+        System.out.println("wat");
     }
 }

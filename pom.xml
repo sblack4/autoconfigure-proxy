@@ -38,6 +38,18 @@
           <artifactId>json</artifactId>
           <version>20160810</version>
       </dependency>
+      <dependency>
+          <groupId>net.java.dev.jna</groupId>
+          <artifactId>jna</artifactId>
+          <version>4.5.1</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>net.java.dev.jna</groupId>
+          <artifactId>jna-platform</artifactId>
+          <version>4.5.1</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 
   <build>
