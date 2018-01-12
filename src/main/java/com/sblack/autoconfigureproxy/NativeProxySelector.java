@@ -11,76 +11,59 @@
 
 package com.sblack.autoconfigureproxy;
 
-import java.net.*;
-import java.util.ArrayList;
-import java.util.Map;
-import com.sun.jna.platform.win32.Advapi32Util;
-import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
-import java.io.IOException;
+import java.net.Proxy;
 import java.util.List;
 
 public class NativeProxySelector {
 
-    private static ProxySelector proxySelector;
+    private static OsProxySelector proxySelector;
 
     NativeProxySelector() {
 
+        String os = System.getProperty("os.name")
+                .toLowerCase();
+        // return appropriate proxy selector
+        if(isWindows(os)) {
+            proxySelector = new WindowsProxySelector();
+        } else if (isMac(os)) {
+            //
+        } else if (isUnix(os)) {
+
+        } else if (isSolaris(os)) {
+
+        }
+
     }
 
-    private Map<String, Object> getInternetSettings() {
-        final String REG_PATH = "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings";
-        return Advapi32Util.registryGetValues(HKEY_CURRENT_USER,REG_PATH);
+    private boolean isWindows(String os) {
+        return os.contains("win");
+    }
+    public static boolean isMac(String os) {
+
+        return (OS.indexOf("mac") >= 0);
+
     }
 
-    private boolean isWindows() {
-        return System.getProperty("os.name")
-                .toLowerCase()
-                .contains("win");
+    public static boolean isUnix(String OS) {
+
+        return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+
     }
 
-    public List<Proxy> getProxyList(){
-        final String defaultUri = "https://www.google.com";
+    public static boolean isSolaris(String OS) {
 
+        return (OS.indexOf("sunos") >= 0);
+
+    }
+
+
+    public List<Proxy> getProxyList() {
         try {
-            return getProxyList(defaultUri);
-        } catch (URISyntaxException uEx) {
-            // this won't happen... right?
-            uEx.printStackTrace();
+            return proxySelector.getProxyList();
+        } catch (Exception ex) {
+
         }
-        return new ArrayList<>();
+
     }
-
-    private boolean testURI(URI uriInQuestion) throws Exception {
-        String protocol = uriInQuestion.getScheme();
-        String host = uriInQuestion.getHost();
-        //int port = uriInQuestion.getPort();
-
-        switch(protocol) {
-            case "ftp":
-                // wat?
-            case "http":
-            case "https":
-                // internet.. okay good
-                return InetAddress.getByName(host).isReachable(20);
-            case "file":
-                // why?!
-                throw new IllegalArgumentException("file? really? ");
-            default:
-                return InetAddress.getByName(host).isReachable(20);
-        }
-    }
-
-    public List<Proxy> getProxyList(String uri) throws URISyntaxException {
-
-        List<Proxy> proxyList;
-
-        if(isWindows()){
-
-        } else {
-            proxyList = ProxySelector.getDefault().select(new URI(uri));
-        }
-        return proxyList;
-    }
-
 
 }
