@@ -9,3 +9,4 @@ Cry no more! There's a script for that!
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
 * [Apache Commons exec](https://commons.apache.org/proper/commons-exec/)
 * [Maven](https://maven.apache.org/)
+* [Chrome's advice on proxy settings](https://www.chromium.org/developers/design-documents/network-stack/debugging-net-proxy)
