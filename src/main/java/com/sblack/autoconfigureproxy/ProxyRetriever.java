@@ -1,9 +1,6 @@
 package com.sblack.autoconfigureproxy;
 
 import com.github.markusbernhardt.proxy.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.awt.peer.SystemTrayPeer;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
@@ -17,9 +14,10 @@ import java.util.List;
 public class ProxyRetriever {
     private List<Proxy> proxyList;
     private ProxySelector proxySelector;
+    private ProxySearch proxySearch;
 
     public ProxyRetriever() {
-        ProxySearch proxySearch = ProxySearch.getDefaultProxySearch();
+        this.proxySearch = ProxySearch.getDefaultProxySearch();
         this.proxySelector = proxySearch.getProxySelector();
     }
 
@@ -27,7 +25,9 @@ public class ProxyRetriever {
      * Detect proxy with default URI (https://www.google.com).
      */
     private void DetectProxy() {
-        DetectProxy("http://www.google.com");
+        if(this.proxyList == null){
+            DetectProxy("http://www.google.com");
+        }
     }
 
     /**
@@ -63,8 +63,18 @@ public class ProxyRetriever {
         }
     }
 
+    public List<Proxy> getProxyList() {
+        DetectProxy();
+        return proxyList;
+    }
+
     public Proxy getProxy() {
         DetectProxy();
+        return proxyList.get(0);
+    }
+
+    public Proxy getProxy(String testURI) {
+        DetectProxy(testURI);
         return proxyList.get(0);
     }
 
@@ -73,12 +83,14 @@ public class ProxyRetriever {
      *
      * @return the proxy (host:port), i.e. www-proxy.example.com:80
      */
-    public String getProxyString(){
+    public String getProxyAddress(){
         DetectProxy();
-        return proxyList.get(0).toString();
+        return proxyList.get(0).address().toString();
     }
 
-    public void getProxyInformation() {
+    public String getProxyType() {
+        DetectProxy();
+        return proxyList.get(0).type().toString();
     }
 
     public void testProxy(){

@@ -49,9 +49,9 @@ public class CommandLineParser {
         // all the cli options here
         this.cliOptions = asList(
                 new CLIOption("d", "display", false, "display proxy url", false),
-                new CLIOption("o", "output", true, "output proxy information", false),
+                new CLIOption("o", "output", false, "output proxy information", false),
                 new CLIOption("t", "test", true, "test url against proxy", false),
-                new CLIOption("h", "help", true, "display this help message", false)
+                new CLIOption("h", "help", false, "display this help message", false)
         );
 
         for(CLIOption opt : cliOptions) {

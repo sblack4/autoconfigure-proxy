@@ -10,6 +10,7 @@ import java.util.List;
 //import org.slf4j.LoggerFactory;
 
 import static java.lang.System.exit;
+import static java.lang.System.in;
 
 
 /**
@@ -40,16 +41,22 @@ public class CLI
             switch (option){
                 case("display"):
                     // display default proxy url
-                    String proxyString = proxyRetriever.getProxyString();
-                    System.out.println(String.format("Proxy: %1$s", proxyString));
+                    System.out.println(String.format("Proxy: %1$s", proxyRetriever.getProxyAddress()));
                     continue;
 
                 case("output"):
                     // output proxy info to console
+                    Proxy proxy = proxyRetriever.getProxy();
+                    System.out.println(
+                            "\n Default proxy: " +
+                            "\n Proxy Type: " + proxy.type().toString() +
+                                    "\n Proxy Address: " + proxy.address().toString()
+                    );
                     continue;
 
                 case("test"):
                     // take arg (url) and test against proxySelector
+                    proxyRetriever.getProxy(answer);
                     continue;
 
                 case("help"):
@@ -57,5 +64,9 @@ public class CLI
                     cliParser.printHelp();
             }
         }
+
+        // set proxies!
+        ProxyService proxyService = new ProxyService(proxyRetriever.getProxy());
+        proxyService.run();
     }
 }

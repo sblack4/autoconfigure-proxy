@@ -12,9 +12,6 @@ import java.io.File;
 //import org.apache.commons.exec;
 
 /**
- * No static (& non-nested) classes in java apparently
- * Thank you stack overflow https://stackoverflow.com/questions/7486012/static-classes-in-java
- * This class contains all the services for which we will want to set, unset, and etc the proxy
  * TODO: find better pattern for this <3
  */
 public final class ProxyService {
@@ -30,7 +27,6 @@ public final class ProxyService {
 
         try {
             this.commandsObj = this.readCommands();
-
             // these are often null and so throw nullpointer exceptions
             this.proxyAddress = proxy.address().toString();
             this.proxyType = proxy.type().toString();
@@ -42,7 +38,6 @@ public final class ProxyService {
             ex.printStackTrace();
             System.exit(1);
         }
-
     }
 
     private boolean isMac() {
@@ -85,11 +80,18 @@ public final class ProxyService {
         return foundProgram;
     }
 
+    /**
+     * Reads commands from static resource file
+     *
+     * @return JSON Object containing commands
+     */
     private JSONObject readCommands() {
         final String COMMANDS_FILE =  "commands.json";
         StringBuilder stringBuilder = new StringBuilder();
 
         try {
+            // the file will be in the same directory as the jar
+            // so get the path to this file
             File currentFile = new File(ProxyService.class
                     .getProtectionDomain()
                     .getCodeSource()
@@ -99,9 +101,6 @@ public final class ProxyService {
 
             String currentPath = currentFile.getAbsolutePath()
                     .substring(0, currentFile.getAbsolutePath().lastIndexOf(File.separator));
-
-            System.out.println("\n cf: "+ currentPath);
-
 
             FileReader fileReader = new FileReader(currentPath + File.separator  + COMMANDS_FILE);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -118,18 +117,27 @@ public final class ProxyService {
         return new JSONObject(stringBuilder.toString());
     }
 
-
+    /**
+     * Run individual command
+     * @param command
+     */
     private void runCommand(String command) {
         System.out.println(command);
     }
 
+    /**
+     * handles logic of what proxy to set
+     * and how to set it
+     * @param program's JSON object
+     */
     private void setProxy(JSONObject program) {
 
         if(!inPath(program.getString("name"))) {
             return;
         }
 
-        // right now only HTTP proxy
+        // right now only HTTP proxy...
+        // TODO: add support for other types of proxies
         if (this.proxyType.equals("HTTP")) {
             runCommand(program.getString("setCommand"));
         } else { // if null or ProxyServices.this.proxy.type().toString().equals("DIRECT")
@@ -137,6 +145,10 @@ public final class ProxyService {
         }
     }
 
+    /**
+     * cycles through programs from commands.json
+     * and sets / unsets the proxy
+     */
     public void run() {
         JSONArray programs = this.commandsObj.getJSONArray("programs");
         for(int i=0; i<programs.length(); i++) {
