@@ -1,8 +1,13 @@
 package com.sblack.autoconfigureproxy;
 
+import com.github.markusbernhardt.proxy.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.awt.peer.SystemTrayPeer;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -10,22 +15,18 @@ import java.util.List;
  * Gets proxy or proxy (pac) file
  */
 public class ProxyRetriever {
-    /**
-     * The Proxy list.
-     */
     private List<Proxy> proxyList;
+    private ProxySelector proxySelector;
 
-    /**
-     * Instantiates a new Proxy retriever.
-     */
     public ProxyRetriever() {
-        DetectProxy();
+        ProxySearch proxySearch = ProxySearch.getDefaultProxySearch();
+        this.proxySelector = proxySearch.getProxySelector();
     }
 
     /**
      * Detect proxy with default URI (https://www.google.com).
      */
-    public void DetectProxy() {
+    private void DetectProxy() {
         DetectProxy("http://www.google.com");
     }
 
@@ -34,22 +35,20 @@ public class ProxyRetriever {
      *
      * @param testUri the test uri
      */
-    public void DetectProxy(String testUriString) {
+    private void DetectProxy(String testUriString) {
         System.setProperty("java.net.useSystemProxies","true");
         try {
             URI testUri = new URI(testUriString);
-
-
-            this.proxyList = ProxySelector.getDefault().select(testUri);
-
-
+            this.proxyList = this.proxySelector.select(testUri);
+        } catch (URISyntaxException ex) {
+            System.out.println("Malformed URI string, try 'http://www.google.com'");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Display hostnames to console
+     * Display host names to console
      */
     public void DisplayHostnames() {
         int i = 1;
@@ -65,6 +64,7 @@ public class ProxyRetriever {
     }
 
     public Proxy getProxy() {
+        DetectProxy();
         return proxyList.get(0);
     }
 
@@ -74,8 +74,14 @@ public class ProxyRetriever {
      * @return the proxy (host:port), i.e. www-proxy.example.com:80
      */
     public String getProxyString(){
+        DetectProxy();
         return proxyList.get(0).toString();
     }
 
+    public void getProxyInformation() {
+    }
 
+    public void testProxy(){
+
+    }
 }

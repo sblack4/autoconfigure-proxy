@@ -10,41 +10,28 @@ import static java.util.Arrays.asList;
  * and returns options
  */
 public class CommandLineParser {
-    private List<CLIOption> clioptions;
+    private List<CLIOption> cliOptions;
     private Options options;
 
     private static class CLIOption {
-        /**
-         * The Opt.
-         */
         String opt;
-        /**
-         * The Long opt.
-         */
         String longOpt;
-        /**
-         * The Has arg.
-         */
         Boolean hasArg;
-        /**
-         * The Description.
-         */
         String description;
-        /**
-         * The Is required.
-         */
         Boolean isRequired;
 
         /**
          * Instantiates a new Cli option.
+         * This way I can just define a list of them
+         * and loop through the list to get / print them
          *
-         * @param opt         the opt
-         * @param longOpt     the long opt
-         * @param hasArg      the has arg
+         * @param opt         the short option
+         * @param longOpt     the long option
+         * @param hasArg      boolean, has arg
          * @param description the description
          * @param isRequired  the is required
          */
-        public CLIOption(String opt, String longOpt, Boolean hasArg, String description, Boolean isRequired) {
+        private CLIOption(String opt, String longOpt, Boolean hasArg, String description, Boolean isRequired) {
             this.opt = opt;
             this.longOpt = longOpt;
             this.hasArg = hasArg;
@@ -56,15 +43,18 @@ public class CommandLineParser {
     /**
      * Instantiates a new Command line parser.
      */
-    public CommandLineParser() {
+    CommandLineParser() {
         options = new Options();
 
-        this.clioptions = asList(
-                new CLIOption("d", "display", false, "display proxy", false),
-                new CLIOption("o", "output", true, "output pac file", false)
+        // all the cli options here
+        this.cliOptions = asList(
+                new CLIOption("d", "display", false, "display proxy url", false),
+                new CLIOption("o", "output", true, "output proxy information", false),
+                new CLIOption("t", "test", true, "test url against proxy", false),
+                new CLIOption("h", "help", true, "display this help message", false)
         );
 
-        for(CLIOption opt : clioptions) {
+        for(CLIOption opt : cliOptions) {
             Option currentOpt = new Option(opt.opt, opt.longOpt, opt.hasArg, opt.description);
             currentOpt.setRequired(opt.isRequired);
             options.addOption(currentOpt);
@@ -72,10 +62,10 @@ public class CommandLineParser {
     }
 
 
-    private void PrintHelp(){
+    public void printHelp(){
         HelpFormatter formatter = new HelpFormatter();
         final String HEADER = "Get, set, and configure proxy settings";
-        final String FOOTER = "";
+        final String FOOTER = "Please report bugs/say hi @ github.com/sblack4/autoconfigure-proxy";
         formatter.printHelp("configure-proxy", HEADER, options, FOOTER, true);
     }
 
@@ -85,25 +75,22 @@ public class CommandLineParser {
      * @param args the args
      * @return the list
      */
-    public List<String[]> Parse(String[] args){
-
+    List<String[]> parse(String[] args){
         DefaultParser parser = new DefaultParser();
         CommandLine cmd;
+        List<String[]> answers = new ArrayList<String[]>();
 
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            PrintHelp();
-
+            printHelp();
             System.exit(1);
-            return null;
+            return answers;
         }
 
-        List<String[]> answers = new ArrayList<String[]>();
-
-        for(CLIOption opt : clioptions) {
-            String[] answer = { opt.longOpt, cmd.getOptionValue(opt.opt)};
+        for(Option opt : cmd.getOptions()) {
+            String[] answer = { opt.getLongOpt(), opt.getValue() };
             answers.add(answer);
         }
 
