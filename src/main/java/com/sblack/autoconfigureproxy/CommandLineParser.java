@@ -1,6 +1,8 @@
 package com.sblack.autoconfigureproxy;
 
 import org.apache.commons.cli.*;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import static java.util.Arrays.asList;
@@ -69,13 +71,29 @@ public class CommandLineParser {
         formatter.printHelp("configure-proxy", HEADER, options, FOOTER, true);
     }
 
+    public void printHelp(PrintWriter printWriter){
+        HelpFormatter formatter = new HelpFormatter();
+        final String HEADER = "Get, set, and configure proxy settings";
+        final String FOOTER = "Please report bugs/say hi @ github.com/sblack4/autoconfigure-proxy";
+
+        formatter.printHelp(printWriter
+                , HelpFormatter.DEFAULT_WIDTH
+            , "configure-proxy"
+            , HEADER
+            , options
+            , formatter.getLeftPadding()
+            , formatter.getDescPadding()
+            , FOOTER
+            , true);
+    }
+
     /**
      * Parse.
      *
      * @param args the args
      * @return the list
      */
-    List<String[]> parse(String[] args){
+    public List<String[]> parse(String[] args){
         DefaultParser parser = new DefaultParser();
         CommandLine cmd;
         List<String[]> answers = new ArrayList<String[]>();

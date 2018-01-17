@@ -1,0 +1,7 @@
+usage: configure-proxy [-d] [-h] [-o] [-t <arg>]
+Get, set, and configure proxy settings
+ -d,--display      display proxy url
+ -h,--help         display this help message
+ -o,--output       output proxy information
+ -t,--test <arg>   test url against proxy
+Please report bugs/say hi @ github.com/sblack4/autoconfigure-proxy

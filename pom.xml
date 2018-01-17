@@ -8,10 +8,12 @@
   <packaging>jar</packaging>
   <name>configure-proxy</name>
   <url>http://maven.apache.org</url>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>1.8</jdk.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -33,7 +35,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -61,8 +63,10 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+
   <build>
     <finalName>autoconfigure-proxy</finalName>
+
     <plugins>
       <!-- Set a compiler level -->
       <plugin>
@@ -137,5 +141,6 @@
         </executions>
       </plugin>
     </plugins>
+
   </build>
 </project>

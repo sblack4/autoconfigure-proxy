@@ -56,6 +56,13 @@ public final class ProxyService {
         return execPath(exec) != null;
     }
 
+    /**
+     * gets path of executable
+     * returns null if not there
+     *
+     * @param program which you desire the path for
+     * @return the path to said executable or null
+     */
     public Path execPath(String desiredProgram) {
         ProcessBuilder pb = new ProcessBuilder(isWindows() ? "where" : "which", desiredProgram);
         Path foundProgram = null;
@@ -67,14 +74,14 @@ public final class ProxyService {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                     foundProgram = Paths.get(reader.readLine());
                 } catch (IOException ex) {
-                    System.out.println("1no "+ desiredProgram);
+                    //System.out.println("1no "+ desiredProgram);
                     ex.printStackTrace();
                 }
             } else {
-                System.out.println("2no "+ desiredProgram + "\n errcode " + errCode);
+                //System.out.println("2no "+ desiredProgram + "\n errcode " + errCode);
             }
         } catch (IOException | InterruptedException ex) {
-            System.out.println("3no "+ desiredProgram);
+            // System.out.println("3no "+ desiredProgram);
             ex.printStackTrace();
         }
         return foundProgram;

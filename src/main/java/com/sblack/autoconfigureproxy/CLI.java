@@ -1,16 +1,9 @@
 package com.sblack.autoconfigureproxy;
 
-import com.github.markusbernhardt.proxy.*;
-import java.net.ProxySelector;
-import java.net.URI;
 import java.net.Proxy;
-import java.net.URISyntaxException;
 import java.util.List;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
-
-import static java.lang.System.exit;
-import static java.lang.System.in;
 
 
 /**
@@ -32,6 +25,7 @@ public class CLI
         CommandLineParser cliParser = new CommandLineParser();
     List<String[]> parsedArgs = cliParser.parse(args);
 
+        //
         ProxyRetriever proxyRetriever = new ProxyRetriever();
 
         for(String[] parsedArg : parsedArgs) {
@@ -62,6 +56,7 @@ public class CLI
                 case("help"):
                     // print help info
                     cliParser.printHelp();
+                    System.exit(0);
             }
         }
 
