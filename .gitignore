@@ -5,3 +5,10 @@
 
 # js - just in case
 node_modules
+
+
+# editors
+.idea
+.vscode
+
+target
