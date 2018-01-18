@@ -1,0 +1,19 @@
+{
+  "programs": [
+    {
+      "name": "npm",
+      "setCommand": "npm config set http-proxy <PROXY_ADDRESS>:<PORT>",
+      "unsetCommand": "npm config rm http-proxy"
+    },
+    {
+      "name": "git",
+      "setCommand":"git config --global http.proxy <PROTOCOL>://<PROXY_ADDRESS>:<PORT>",
+      "unsetCommand": "git config --global --unset http.proxy"
+    },
+    {
+      "name": "",
+      "setCommand":"",
+      "unsetCommand": ""
+    }
+  ]
+}

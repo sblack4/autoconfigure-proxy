@@ -3,5 +3,16 @@
 ~*
 *.pptx
 
-# js - just in case
+# js
 node_modules
+
+# editors
+.vscode
+.idea
+
+# java
+*.class
+target/**/*
+
+# swap files 
+*.swp
