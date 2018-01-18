@@ -1,5 +1,6 @@
 package com.sblack.autoconfigureproxy;
 
+import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -44,9 +45,12 @@ public final class ProxyService {
 
   public class CollectingLogOutputStream extends LogOutputStream {
     private final List<String> lines = new LinkedList<String>();
-    @Override protected void processLine(String line, int level) {
+
+    @Override
+    protected void processLine(String line, int level) {
       lines.add(line);
     }
+
     public List<String> getLines() {
       return lines;
     }
@@ -194,6 +198,27 @@ public final class ProxyService {
     String commandWithAddress = commandWithProtocol.replace("<PROXY_ADDRESS>", getAddress());
     String commandWithPort = commandWithAddress.replace("<PORT>", getPort());
     System.out.println(commandWithPort);
+
+    CommandLine commandLine;
+
+    if(isWindows()) {
+     commandLine = CommandLine.parse("cmd.exe /c");
+    } else {
+     commandLine = CommandLine.parse("bash -c");
+    }
+
+    try {
+      commandLine.addArgument(commandWithPort);
+      DefaultExecutor defaultExecutor = new DefaultExecutor();
+      ExecuteWatchdog executeWatchdog = new ExecuteWatchdog(30 * 1000);
+
+      defaultExecutor.setWatchdog(executeWatchdog);
+      defaultExecutor.setExitValues(new int[]{0, 1, 2});
+      int exitValue = defaultExecutor.execute(commandLine, EnvironmentUtils.getProcEnvironment());
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
   }
 
   /**
