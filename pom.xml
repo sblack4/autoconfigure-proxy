@@ -132,6 +132,7 @@
                   <directory>${project.basedir}/src/main/resources</directory>
                   <includes>
                     <include>commands.json</include>
+                    <include>autoproxy</include>
                     <include>settings.json</include>
                   </includes>
                 </resource>

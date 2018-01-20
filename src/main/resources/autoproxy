@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+declare JAVA_HOME
+
+if [[ -z "${JAVA_HOME}" ]]; then
+    JAVA_HOME="${JAVA_HOME}"
+elif [[ $(which java) ]]; then
+    JAVA_HOME=$(which java)
+else
+    echo "No java found, make sure to install java and "
+    echo " add this to your PATH and set your JAVA_HOME env var"
+    exit 0
+fi
+
+exec "$JAVA_HOME" " -jar autoconfigure-proxy.jar " \
+    "com.sblack.autoconfigureproxy.CLI " "configure-proxy " "$@"
